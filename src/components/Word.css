@@ -1,0 +1,16 @@
+div.word-container {
+    display: flex;
+    justify-content: space-around;
+    width: 300px;
+    height: 55px;
+}
+
+div.tile {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 50px;
+    height: 50px;
+    border: 2px solid rgb(65, 58, 58);
+    font-size: 50px;
+}
