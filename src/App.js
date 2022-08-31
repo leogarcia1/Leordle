@@ -10,34 +10,52 @@ function App() {
   // current word - 6 words
   const [currentWord, setCurrentWord] = useState(0);
 
+  /* 
+  This useEffect hook is used to listen for when the user types a key,
+  and updates the state if it's a valid key.
+  */
   useEffect(() => {
     const keyDownHandler = event => {
-      console.log('User pressed: ', event.key);
-
+      // if user inputted a letter
       if(isLetter(event.key)) {
         // check if word is not full
         if(letters[currentWord].length !== 5){
-          setLetters(letters[currentWord].push(event.key));
-          console.log('Letters ', letters);
+          let newLetters = [...letters];
+          newLetters[currentWord].push(event.key.toUpperCase());
+          setLetters([...newLetters]);
         }
       }
+
+      // if user inputted Enter
       else if (event.key === "Enter") {
         setCurrentWord(currentWord + 1);
-        console.log("Current word: ", currentWord);
+
+        // check if game is over
+        if(currentWord === 6) {
+          // game over
+        }
       }
+
+      // if user inputted a back space
       else if (event.key === "Backspace") {
-        setLetters(letters[currentWord].pop());
+        // check if user has anything to remove
+        if(letters[currentWord].length !== 0) {
+          let newLetters = [...letters];
+          newLetters[currentWord].pop();
+          setLetters([...newLetters]);
+        }
       }
     };
 
-    document.addEventListener('keydown', keyDownHandler);
+    // listens for when user types a key
+    window.addEventListener('keydown', keyDownHandler);
 
     // clean up event listener
-    return () => {
-      document.removeEventListener('keydown', keyDownHandler);
-    };
-  }, []);
+    return () => {window.removeEventListener('keydown', keyDownHandler);};
+  }, [currentWord, letters]);
 
+
+  /* Checks if users input was a letter */
   function isLetter(str) {
     return str.length === 1 && str.match(/[a-z]/i);
   }
@@ -52,7 +70,7 @@ function App() {
     <div className='game-container'>
       {/* BOARD */}
       <div className='board'>
-        <Word letters={letters}/>
+        <Word letters={letters[0]}/>
         <Word letters={letters[1]}/>
         <Word letters={letters[2]}/>
         <Word letters={letters[3]}/>
