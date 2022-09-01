@@ -2,6 +2,7 @@ import React from 'react';
 import { useState, useEffect } from 'react';
 import './App.css';
 import Word from './components/Word';
+import words from './words.txt'
 
 function App() {
   // letters of current word - 5 letters
@@ -10,12 +11,30 @@ function App() {
   // current word - 6 words
   const [currentWord, setCurrentWord] = useState(0);
 
+  // word that the user is trying to guess
+  const [winningWord, setWinningWord] = useState([]);
+
+
+  /**
+   * This useEffect hook gets a random word from the text file to be the winning word.
+   */
+  useEffect(() => {
+    fetch(words)
+      .then(response => response.text())
+        .then(text => {
+                      const words = text.split(/\r?\n/);  // array of words
+                      const randomWord = words[Math.floor(Math.random() * words.length)];
+                      setWinningWord(randomWord.split(""));
+                    })
+    },[])
+
   /* 
   This useEffect hook is used to listen for when the user types a key,
   and updates the state if it's a valid key.
   */
   useEffect(() => {
     const keyDownHandler = event => {
+      console.log("Winning Word: ", winningWord);
       // if user inputted a letter
       if(isLetter(event.key)) {
         // check if word is not full
@@ -28,12 +47,15 @@ function App() {
 
       // if user inputted Enter
       else if (event.key === "Enter") {
-        setCurrentWord(currentWord + 1);
+        // check if user filled in all letters
+        if(letters[currentWord].length === 5){
+          setCurrentWord(currentWord + 1);
 
-        // check if game is over
-        if(currentWord === 6) {
-          // game over
-        }
+          // check if game is over
+          if(currentWord === 6) {
+            // game over
+          }
+        } 
       }
 
       // if user inputted a back space
@@ -52,7 +74,7 @@ function App() {
 
     // clean up event listener
     return () => {window.removeEventListener('keydown', keyDownHandler);};
-  }, [currentWord, letters]);
+  }, [currentWord, letters, winningWord]);
 
 
   /* Checks if users input was a letter */
