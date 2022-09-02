@@ -13,7 +13,7 @@ import { Status } from '../App';
  */
 function Word({wordNumber, letters, winningWord, currentWord, alphabet, setAlphabet}) {
 
-    let obj = alphabet; // this variable is used to update alphabet which is in the parent component
+    const obj = alphabet; // this variable is used to update alphabet which is in the parent component
 
     /* This useEffect will update alphabet in the parent component when it needs to be changed. */
     useEffect(() => {
@@ -39,12 +39,9 @@ function Word({wordNumber, letters, winningWord, currentWord, alphabet, setAlpha
         }
         // if user already guessed this row
         else{
-            console.log(obj);
-            console.log(alphabet);
             const tileRows = [];
             for (let i = 0; i < 5; i++) {
                 let spotClassName = 'letter-no-spot';
-                obj[letters[i]] = Status.NoSpot;
                 // check if letter is in winning word
                 if(winningWord.includes(letters[i])) {
                     if(letters[i] === winningWord[i]) {
@@ -52,11 +49,17 @@ function Word({wordNumber, letters, winningWord, currentWord, alphabet, setAlpha
                         obj[letters[i]] = Status.CorrectSpot;
                     }
                     else {
+                        console.log("Letter: ", letters[i]);
+                        console.log("alphabet: ", obj[letters[i]]);
                         spotClassName = 'letter-wrong-spot';
                         if(alphabet[letters[i]] !== Status.CorrectSpot) {
                             obj[letters[i]] = Status.WrongSpot;
                         }
                     }
+                }
+                // letter is not in winning word
+                else {
+                    obj[letters[i]] = Status.NoSpot;
                 }
                 tileRows.push(
                     <div key={i} className={'tile ' + (spotClassName)}>
