@@ -3,6 +3,7 @@ Leordle - a remake of the game Wordle
 React - Javascript, HTML, and CSS
 
 ###############################################################################
+
 In the project directory, you can run:
 
 ### `npm start`
