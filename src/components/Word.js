@@ -39,10 +39,11 @@ function Word({wordNumber, letters, winningWord, currentWord, alphabet, setAlpha
         }
         // if user already guessed this row
         else{
+            console.log(obj);
+            console.log(alphabet);
             const tileRows = [];
             for (let i = 0; i < 5; i++) {
                 let spotClassName = 'letter-no-spot';
-                let obj = alphabet;
                 obj[letters[i]] = Status.NoSpot;
                 // check if letter is in winning word
                 if(winningWord.includes(letters[i])) {
@@ -52,7 +53,9 @@ function Word({wordNumber, letters, winningWord, currentWord, alphabet, setAlpha
                     }
                     else {
                         spotClassName = 'letter-wrong-spot';
-                        obj[letters[i]] = Status.WrongSpot;
+                        if(alphabet[letters[i]] !== Status.CorrectSpot) {
+                            obj[letters[i]] = Status.WrongSpot;
+                        }
                     }
                 }
                 tileRows.push(
