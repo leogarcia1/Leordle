@@ -1,29 +1,77 @@
-import React from 'react';
-import { useState } from 'react';
-import './Word.css'
+import React, { useEffect } from 'react';
+import './Word.css';
+import { Status } from '../App';
 
-function Word({letters}) {
-    const [attempted, setAttempted] = useState(false);
-    
+/**
+ * This functional component will be for each word that is guessed.
+ * wordNumber = the unique id for each word guess
+ * letters = array of letters currently on board
+ * winningWord = array of letters of the correct word
+ * currentWord = id of word guess that game is currently on
+ * alphabet = object that keeps track of keyboard status
+ * setAlphabet = setState of parent component for alphabet
+ */
+function Word({wordNumber, letters, winningWord, currentWord, alphabet, setAlphabet}) {
+
+    let obj = alphabet; // this variable is used to update alphabet which is in the parent component
+
+    /* This useEffect will update alphabet in the parent component when it needs to be changed. */
+    useEffect(() => {
+        setAlphabet(obj);
+    }, [obj, setAlphabet])
+
+    function WordContainer() {
+        // check if user is currently on this row, or not on the row yet
+        if(currentWord <= wordNumber) {
+            const tileRows = [];
+            for (let i = 0; i < 5; i++) {
+                tileRows.push(
+                    <div key={i} className={'tile ' + (letters[i] === undefined ? '' : 'letter-typed')}>
+                        <span className='letter'>{letters[i]}</span>
+                    </div>
+                );
+            }
+            return(             
+                <div className='word-container'>
+                    {tileRows}
+                </div>
+                );
+        }
+        // if user already guessed this row
+        else{
+            const tileRows = [];
+            for (let i = 0; i < 5; i++) {
+                let spotClassName = 'letter-no-spot';
+                let obj = alphabet;
+                obj[letters[i]] = Status.NoSpot;
+                // check if letter is in winning word
+                if(winningWord.includes(letters[i])) {
+                    if(letters[i] === winningWord[i]) {
+                        spotClassName = 'letter-correct-spot';
+                        obj[letters[i]] = Status.CorrectSpot;
+                    }
+                    else {
+                        spotClassName = 'letter-wrong-spot';
+                        obj[letters[i]] = Status.WrongSpot;
+                    }
+                }
+                tileRows.push(
+                    <div key={i} className={'tile ' + (spotClassName)}>
+                        <span className='letter'>{letters[i]}</span>
+                    </div>
+                );
+            }
+            return(             
+                <div className='word-container'>
+                    {tileRows}
+                </div>
+                );
+        }
+    }
+
     return (
         <React.Fragment>
-            <div className='word-container'>
-                <div className='tile'>
-                    {letters[0]}
-                </div>
-                <div className='tile'>
-                    {letters[1]}
-                </div>
-                <div className='tile'>
-                    {letters[2]}
-                </div>
-                <div className='tile'>
-                    {letters[3]}
-                </div>
-                <div className='tile'>
-                    {letters[4]}
-                </div>
-            </div>
+            <WordContainer/>
         </React.Fragment>
     );
 }

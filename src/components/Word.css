@@ -1,16 +1,42 @@
-div.word-container {
+.word-container {
     display: flex;
     justify-content: space-around;
     width: 300px;
     height: 55px;
 }
 
-div.tile {
+.tile {
     display: flex;
     justify-content: center;
     align-items: center;
     width: 50px;
     height: 50px;
-    border: 2px solid rgb(65, 58, 58);
+    border: 2px solid rgb(190, 186, 186);
+}
+
+.letter-typed {
+    border: 2px solid black;
+}
+
+.letter-correct-spot {
+    background-color: #6aaa64;
+    color: white;
+    border: 2px solid #6aaa64;
+}
+
+.letter-wrong-spot {
+    background-color: #c9b458;
+    color: white;
+    border: 2px solid #c9b458;
+}
+
+.letter-no-spot {
+    background-color: #787c7e;
+    color: white;
+    border: 2px solid #787c7e;
+}
+
+.letter {
     font-size: 50px;
+    margin-bottom: 5px;
 }

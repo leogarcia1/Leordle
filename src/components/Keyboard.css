@@ -1,0 +1,29 @@
+.keyboard-container {
+    display: flex;
+    justify-content: space-between;
+    height: 100%;
+    width: 900px;
+}
+
+.key {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 30px;
+    height: 45px;
+    background-color: rgb(190, 186, 186);
+    border-radius: 3px;
+    color: white;
+}
+
+.key-correct-spot {
+    background-color: #6aaa64;
+}
+
+.key-wrong-spot {
+    background-color: #c9b458;
+}
+
+.key-no-spot {
+    background-color: #787c7e;
+}
